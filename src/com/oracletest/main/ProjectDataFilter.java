@@ -1,10 +1,11 @@
-import domain.ProjectData;
+package com.oracletest.main;
+
+import com.oracletest.main.domain.ProjectData;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
 public class ProjectDataFilter {
     /*The number of unique customerId for each contractId.

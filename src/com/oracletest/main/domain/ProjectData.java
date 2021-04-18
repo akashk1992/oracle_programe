@@ -1,4 +1,4 @@
-package domain;
+package com.oracletest.main.domain;
 
 public class ProjectData {
     private String customerId;

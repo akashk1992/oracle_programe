@@ -1,4 +1,6 @@
-import domain.ProjectData;
+package com.oracletest.main;
+
+import com.oracletest.main.domain.ProjectData;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -6,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class Main {
+public class OracleTestMain {
     public static void main(String[] args) {
         String projectDataString = "2343225,2345,us_east,RedTeam,ProjectApple,3445s\n" +
                 "1223456,2345,us_west,BlueTeam,ProjectBanana,2211s\n" +
@@ -26,8 +28,8 @@ public class Main {
 
     /**
      * Building data in list of objects of better manipulation
-     * */
-    private static List<ProjectData> extractProjectData(String projectDataString) {
+     */
+    public static List<ProjectData> extractProjectData(String projectDataString) {
         String[] rows = projectDataString.split("\n");
 
         return Arrays.stream(rows)
@@ -42,7 +44,7 @@ public class Main {
                 )).collect(Collectors.toList());
     }
 
-    private static void uniqueCustomersByContractIdCount(List<ProjectData> projectDataList) {
+    public static HashMap<String, Long> uniqueCustomersByContractIdCount(List<ProjectData> projectDataList) {
         Map<String, List<ProjectData>> dataGroupByContractId = projectDataList.stream()
                 .collect(Collectors.groupingBy(ProjectData::getContractId, Collectors.toList()));
 
@@ -54,9 +56,10 @@ public class Main {
         System.out.println("The number of unique customerId for each contractId.");
         System.out.println(uniqueCustomersByContractId);
         System.out.println("-----------------------------------------------------");
+        return uniqueCustomersByContractId;
     }
 
-    private static void uniqueCustomersByGeoZoneCount(List<ProjectData> projectDataList) {
+    public static HashMap<String, Long> uniqueCustomersByGeoZoneCount(List<ProjectData> projectDataList) {
         Map<String, List<ProjectData>> dataGroupByGeoZone = projectDataList.stream()
                 .collect(Collectors.groupingBy(ProjectData::getGeoZone, Collectors.toList()));
 
@@ -68,13 +71,16 @@ public class Main {
         System.out.println("The number of unique customerId for each geozone");
         System.out.println(uniqueCustomersByGeoZoneMap);
         System.out.println("-----------------------------------------------");
+        return uniqueCustomersByGeoZoneMap;
     }
 
 
     /**
      * Method to filter unique customer id's list by each Geo-Zone
+     *
+     * @return
      */
-    private static void uniqueCustomersByGeoZoneList(List<ProjectData> projectDataList) {
+    public static HashMap<String, List<String>> uniqueCustomersByGeoZoneList(List<ProjectData> projectDataList) {
         Map<String, List<ProjectData>> dataGroupByGeoZone = projectDataList.stream()
                 .collect(Collectors.groupingBy(ProjectData::getGeoZone, Collectors.toList()));
 
@@ -88,23 +94,27 @@ public class Main {
         System.out.println("The list of unique customerId for each geozone");
         System.out.println(uniqueCustomersByGeoZoneMap);
         System.out.println("------------------------------------------------");
+        return uniqueCustomersByGeoZoneMap;
     }
 
     /**
      * Method to calculate average build duration for each Geo-Zone
+     *
+     * @return
      */
 
-    private static void averageBuildDurationPerGeoZone(List<ProjectData> projectDataList) {
+    public static HashMap<String, String> averageBuildDurationPerGeoZone(List<ProjectData> projectDataList) {
         Map<String, List<ProjectData>> dataGroupByGeoZone = projectDataList.stream()
                 .collect(Collectors.groupingBy(ProjectData::getGeoZone, Collectors.toList()));
 
-        HashMap<String, String> uniqueCustomersByGeoZoneMap = new HashMap<>();
+        HashMap<String, String> durationByZoneMap = new HashMap<>();
         for (Map.Entry<String, List<ProjectData>> data : dataGroupByGeoZone.entrySet()) {
             double averageDuration = data.getValue().stream()
                     .mapToLong(ProjectData::getBuildDuration).average().orElse(Double.NaN);
-            uniqueCustomersByGeoZoneMap.put(data.getKey(), averageDuration + "s");
+            durationByZoneMap.put(data.getKey(), averageDuration + "s");
         }
         System.out.println("The Average build duration for each geozone");
-        System.out.println(uniqueCustomersByGeoZoneMap);
+        System.out.println(durationByZoneMap);
+        return durationByZoneMap;
     }
 }
