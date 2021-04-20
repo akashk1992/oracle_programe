@@ -1,5 +1,6 @@
 package com.oracletest.main;
 
+import com.oracletest.main.builder.ProjectDataBuilder;
 import com.oracletest.main.domain.ProjectData;
 
 import java.util.Arrays;
@@ -30,18 +31,22 @@ public class OracleTestMain {
      * Building data in list of objects of better manipulation
      */
     public static List<ProjectData> extractProjectData(String projectDataString) {
+
         String[] rows = projectDataString.split("\n");
 
         return Arrays.stream(rows)
                 .map(row -> row.split(","))
-                .map(rowElement -> new ProjectData(
-                        rowElement[0],
-                        rowElement[1],
-                        rowElement[2],
-                        rowElement[3],
-                        rowElement[4],
-                        Long.parseLong(rowElement[5].replace("s", ""))
-                )).collect(Collectors.toList());
+                .map(rowElement -> new ProjectDataBuilder()
+                        .setCustomerId(rowElement[0])
+                        .setContractId(rowElement[1])
+                        .setGeoZone(rowElement[2])
+                        .setTeamCode(rowElement[3])
+                        .setProjectCode(rowElement[4])
+                        .setBuildDuration(Long.parseLong(rowElement[5].replace("s", "")))
+                        .build())
+                .collect(Collectors.toList());
+
+
     }
 
     public static HashMap<String, Long> uniqueCustomersByContractIdCount(List<ProjectData> projectDataList) {
