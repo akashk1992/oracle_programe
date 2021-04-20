@@ -1,12 +1,13 @@
 package com.oracletest.test;
 
-import com.oracletest.main.OracleTestMain;
+import com.oracletest.main.clientreports.DLFReportImplementation;
+import com.oracletest.main.OracleMain;
+import com.oracletest.main.domain.ClientReport;
 import com.oracletest.main.domain.ProjectData;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.HashMap;
 import java.util.List;
 
 public class MainTest {
@@ -22,25 +23,47 @@ public class MainTest {
                 "1233456,2345,us_west,BlueTeam,ProjectApple,5678s\n" +
                 "3244132,2346,eu_west,YellowTeam3,ProjectEgg,4122s";
 
-        projectDatsList = OracleTestMain.extractProjectData(projectDataString);
+        projectDatsList = OracleMain.extractProjectData(projectDataString);
 
     }
+
+//    @Test
+//    public void testUniqueCustomersByContractIdCount() {
+//        HashMap<String, Long> resultMap = OracleMain.uniqueCustomersByContractIdCount(projectDatsList);
+//        Assertions.assertEquals(3, resultMap.get("2345"));
+//    }
+//
+//    @Test
+//    public void testUniqueCustomersByGeoZoneCount() {
+//        HashMap<String, Long> resultMap = OracleMain.uniqueCustomersByGeoZoneCount(projectDatsList);
+//        Assertions.assertEquals(2, resultMap.get("us_west"));
+//    }
+//
+//    @Test
+//    public void testAverageBuildDurationPerGeoZone() {
+//        HashMap<String, String> resultMap = OracleMain.averageBuildDurationPerGeoZone(projectDatsList);
+//        Assertions.assertEquals("3445.0s", resultMap.get("us_east"));
+//    }
 
     @Test
-    public void testUniqueCustomersByContractIdCount() {
-        HashMap<String, Long> resultMap = OracleTestMain.uniqueCustomersByContractIdCount(projectDatsList);
-        Assertions.assertEquals(3, resultMap.get("2345"));
+    public void generateDLFReport() {
+        DLFReportImplementation reportImplementation = new DLFReportImplementation(projectDatsList);
+        ClientReport result = reportImplementation.generateReport();
+//        System.out.println(result);
+        Assertions.assertEquals("DLF", result.getClient());
+        Assertions.assertEquals(3, result.getUniqueCustomersByContractCount().get("2345"));
+        Assertions.assertEquals(2, result.getUniqueCustomersByGeoZoneCount().get("us_west"));
+        Assertions.assertEquals("3445.0s", result.getAverageDurationPerGeoZone().get("us_east"));
     }
 
-    @Test
-    public void testUniqueCustomersByGeoZoneCount() {
-        HashMap<String, Long> resultMap = OracleTestMain.uniqueCustomersByGeoZoneCount(projectDatsList);
-        Assertions.assertEquals(2, resultMap.get("us_west"));
-    }
+    /**
+     * Test case to test report generation for different client
+     * */
+//    @Test
+//    public void generateRelInfraReport() {
+//        RELINFRAReportImplementation reportImplementation = new RELINFRAReportImplementation(projectDatsList);
+//        ClientReport result = reportImplementation.generateReport();
+//    }
 
-    @Test
-    public void testAverageBuildDurationPerGeoZone() {
-        HashMap<String, String> resultMap = OracleTestMain.averageBuildDurationPerGeoZone(projectDatsList);
-        Assertions.assertEquals("3445.0s", resultMap.get("us_east"));
-    }
+
 }
