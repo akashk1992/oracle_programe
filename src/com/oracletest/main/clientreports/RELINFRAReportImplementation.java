@@ -6,6 +6,9 @@ import com.oracletest.main.factory.Report;
 
 import java.util.List;
 
+/**
+ * Client 2 specific requirements
+ */
 
 /**
  * This client may require to find unique customers by Team Code or Project Code OR

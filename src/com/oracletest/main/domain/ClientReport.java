@@ -3,6 +3,9 @@ package com.oracletest.main.domain;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * Client Report Response Domain
+ * */
 public class ClientReport {
     private String client;
     private HashMap<String, Long> uniqueCustomersByContractCount;

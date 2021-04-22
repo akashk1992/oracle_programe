@@ -10,6 +10,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+/**
+ * Client 1 specific requirements
+ * */
 public class DLFReportImplementation implements Report {
     private final List<ProjectData> projectDataList;
     ClientReport dlfReport = new ClientReport("DLF");

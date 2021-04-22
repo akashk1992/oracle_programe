@@ -27,6 +27,9 @@ public class MainTest {
 
     }
 
+    /**
+     * To test specific unit of work
+     * */
 //    @Test
 //    public void testUniqueCustomersByContractIdCount() {
 //        HashMap<String, Long> resultMap = OracleMain.uniqueCustomersByContractIdCount(projectDatsList);

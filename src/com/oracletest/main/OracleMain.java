@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 
 public class OracleMain {
     public static void main(String[] args) {
+
         String projectDataString = "2343225,2345,us_east,RedTeam,ProjectApple,3445s\n" +
                 "1223456,2345,us_west,BlueTeam,ProjectBanana,2211s\n" +
                 "3244332,2346,eu_west,YellowTeam3,ProjectCarrot,4322s\n" +
@@ -33,6 +34,11 @@ public class OracleMain {
 
         String[] rows = projectDataString.split("\n");
 
+        /**
+         * Building project data using Builder design pattern
+         *
+         * @retutn list of projects
+         * */
         return Arrays.stream(rows)
                 .map(row -> row.split(","))
                 .map(rowElement -> new ProjectData.ProjectDataBuilder()
